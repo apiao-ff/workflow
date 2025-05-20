@@ -1,0 +1,23 @@
+// POST
+// URL:http://127.0.0.1/set_task
+// Content-Type:application/json
+{
+	"ReqBody": {
+		"userId": "abc",
+		"taskId": "bdd18d8f-db5b-4fb8-910f-5f6ff30d036c_lark_1",
+		"taskType": "lark",
+		"taskStage": "stage1",
+		"status": 0,
+		"scheduleLog": "",
+		"context": "",
+		"crtRetryNum": 0,
+		"maxRetryNum": 3,
+		"maxRetryInterval": 10,
+		"priority": 0,
+		"orderTime": 1747396231
+	},
+	"ResBody": {
+		"code": 0,
+		"msg": "success"
+	}
+}

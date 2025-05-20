@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name : workflow_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: apiao0509
+      MYSQL_DATABASE: workflow  
+    ports:
+      - "53306:3306"             
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/create.sql:/docker-entrypoint-initdb.d/create.sql
+    networks:
+      - net
+
+  redis:
+    image: redis:latest
+    container_name : workflow_redis
+    ports:
+      - "56379:6379"            
+    volumes:
+      - redis_data:/data
+    networks:
+      - net
+    command: ["redis-server", "--requirepass", "apiao0509"]
+
+
+  flowsvr:
+    image: workflow:latest
+    container_name : workflow_flowsvr
+    cpus: "2.0"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - net
+    volumes:
+      - flowsvr_data:/app/data   
+      - ./flowsvr/config/config.json:/app/flowsvr/config/config.json
+    ports:
+      - "58080:8080"             
+    command: >
+      sh -c "sleep 10 && ./build/flowsvr ./flowsvr/config/config.json"
+
+  worker1:
+    image: workflow:latest
+    container_name : workflow_work1
+    cpus: "2.0"
+    depends_on:
+      - flowsvr
+      - redis
+    networks:
+      - net
+    volumes:
+      - worker_data1:/app/data
+      - ./worker/config/config.json:/app/worker/config/config.json
+    command: >
+      sh -c "sleep 20 && ./build/worker ./worker/config/config.json"
+
+
+  worker2:
+    image: workflow:latest
+    container_name : workflow_work2
+    cpus: "2.0"
+    depends_on:
+      - flowsvr
+      - redis
+    networks:
+      - net
+    volumes:
+      - worker_data2:/app/data
+      - ./worker/config/config.json:/app/worker/config/config.json
+    command: >
+      sh -c "sleep 20 && ./build/worker ./worker/config/config.json"
+
+
+# 定义具名卷
+volumes:
+  mysql_data: 
+  redis_data:
+  flowsvr_data:
+  worker_data1:
+  worker_data2:
+
+# 定义网络
+networks:
+  net:

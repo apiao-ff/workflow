@@ -1,0 +1,22 @@
+// POST
+// URL:http: //127.0.0.1/get_task_schedule_cfg_list.yml
+// Content-Type:application/json
+{
+    "ReqBody": {},
+    "ResBody": {
+        "code": 0,
+        "msg": "success",
+        "scheduleCfgList": [
+            {
+                "taskType": "lark",
+                "scheduleLimit": 100,
+                "scheduleInterval": 10,
+                "maxProcessingTime": 30,
+                "maxRetryNum": 3,
+                "maxRetryInterval": 10,
+                "createTime": "20250510 16:15:47",
+                "modifyTime": "20250510 16:15:47"
+            }
+        ]
+    }
+}

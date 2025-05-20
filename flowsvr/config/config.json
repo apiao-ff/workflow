@@ -1,0 +1,31 @@
+{
+    "listeners": [
+        {
+            "address": "0.0.0.0",
+            "port": 8080,
+            "https": false
+        }
+    ],
+    "number_of_threads": 5,
+    "max_connections": 10000,
+    "idle_connection_timeout": 60,
+    "log": {
+        "logfile_base_name": "./data/flowsvr_log",
+        "log_size_limit": 100000000,
+        "log_level": "TRACE",
+        "display_local_time": true
+    },
+    "upload_path": "./data/upload",
+    "db_clients": [
+        {
+            "name": "db",
+            "rdbms": "mysql",
+            "host": "mysql",
+            "port": 3306,
+            "dbname": "workflow",
+            "user": "root",
+            "password": "apiao0509",
+            "connection_number": 5
+        }
+    ]
+}

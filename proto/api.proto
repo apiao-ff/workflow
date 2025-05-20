@@ -1,0 +1,146 @@
+syntax = "proto3";  
+package api;       
+
+// ping
+message PingRequest {}
+message PingResponse {
+  int32 code = 1;
+  string msg = 2;
+}
+
+// 通用响应结构
+message Message {
+  int32 code = 1 [json_name = "code"]; // 状态码
+  string msg = 2 [json_name = "msg"];  // 状态说明信息
+}
+
+// 任务结构
+message TaskData {
+  string user_id = 1 [json_name = "userId"];                            // 用户ID
+  string task_id = 2 [json_name = "taskId"];                            // 任务唯一标识   
+  string task_type = 3 [json_name = "taskType"];                        // 任务类型
+  string task_stage = 4 [json_name = "taskStage"];                      // 阶段标识
+  int32 status = 5 [json_name = "status"];                              // 当前状态码
+  string schedule_log = 6 [json_name = "scheduleLog"];                  // 调度日志
+  string task_context = 7 [json_name = "context"];                      // 上下文内容
+  int32 crt_retry_num = 8 [json_name = "crtRetryNum"];                  // 当前重试次数
+  int32 max_retry_num = 9 [json_name = "maxRetryNum"];                  // 最大可重试次数
+  int32 max_retry_interval = 10 [json_name = "maxRetryInterval"];       // 最大重试时间间隔
+  int32 priority = 11 [json_name = "priority"];                         // 优先级
+  int32 order_time = 12 [json_name = "orderTime"];                      // 排队时间
+  string create_time = 13 [json_name = "createTime"];                   // 创建时间
+  string modify_time = 14 [json_name = "modifyTime"];                   // 修改时间
+}
+
+// 调度策略配置
+message TaskScheduleCfg {
+  string task_type = 1 [json_name = "taskType"];                        // 对应任务类型
+  int32 schedule_limit = 2 [json_name = "scheduleLimit"];               // 并发调度上限
+  int32 schedule_interval = 3 [json_name = "scheduleInterval"];         // 调度间隔（秒）
+  int32 max_processing_time = 4 [json_name = "maxProcessingTime"];      // 任务最长处理时长
+  int32 max_retry_num = 5 [json_name = "maxRetryNum"];                  // 最大重试次数
+  int32 max_retry_interval = 6 [json_name = "maxRetryInterval"];        // 重试间隔（秒）
+  string create_time = 7 [json_name = "createTime"];                    // 配置创建时间
+  string modify_time = 8 [json_name = "modifyTime"];                    // 配置修改时间
+}
+
+// 创建任务
+message CreateTaskReq {
+  TaskData taskdata = 1 [json_name = "taskData"];          
+}
+message CreateTaskRsp {
+  int32 code = 1 [json_name = "code"];                     
+  string msg = 2 [json_name = "msg"];                      
+  string task_id = 3 [json_name = "task_id"];              
+}
+
+// 获取单个任务
+message GetTaskReq {
+  string task_id = 1 [json_name = "taskId"];                       
+}
+message GetTaskRsp {
+  int32 code = 1 [json_name = "code"];
+  string msg = 2 [json_name = "msg"];
+  TaskData task_data = 3 [json_name = "task_data"];
+}
+
+// 查询任务列表
+message GetTaskListReq {
+  string task_type = 1 [json_name = "task_type"];          
+  int32 status = 2 [json_name = "status"];                 
+  int32 limit = 3 [json_name = "limit"];                   
+}
+message GetTaskListRsp {
+  int32 code = 1 [json_name = "code"];
+  string msg = 2 [json_name = "msg"];
+  repeated TaskData task_list = 3 [json_name = "taskList"]; 
+}
+
+// 锁定任务
+message HoldTasksReq {
+  string task_type = 1 [json_name = "taskType"];                    
+  int32 limit = 2 [json_name = "limit"];                            
+}
+message HoldTasksRsp {
+  int32 code = 1 [json_name = "code"];
+  string msg = 2 [json_name = "msg"];
+  repeated TaskData task_list = 3 [json_name = "taskList"];        
+}
+
+
+// 状态统计
+message GetTaskCountByStatusReq {
+  string task_type = 1 [json_name = "taskType"];
+  int32 status = 2 [json_name = "status"];
+}
+message GetTaskCountByStatusRsp {
+  int32 code = 1 [json_name = "code"];
+  string msg = 2 [json_name = "msg"];
+  int32 count = 3 [json_name = "count"];                  
+}
+
+// 获取调度配置列表
+message GetTaskScheduleCfgListReq {}
+message GetTaskScheduleCfgListRsp {
+  int32 code = 1 [json_name = "code"];
+  string msg = 2 [json_name = "msg"];
+  repeated TaskScheduleCfg task_schedule_cfg = 3 [json_name = "scheduleCfgList"];
+}
+
+// 更新任务状态
+message SetTaskStatusReq {
+  string task_id = 1 [json_name = "taskId"];
+  int32 status = 2 [json_name = "status"];
+  bool no_modify_time = 3 [json_name = "noModifyTime"]; 
+}
+message SetTaskStatusRsp {
+  int32 code = 1 [json_name = "code"];
+  string msg = 2 [json_name = "msg"];
+}
+
+// 修改任务（全量更新）
+message SetTaskReq {
+  string user_id = 1 [json_name = "userId"];
+  string task_id = 2 [json_name = "taskId"];
+  string task_type = 3 [json_name = "taskType"];
+  string task_stage = 4 [json_name = "taskStage"];
+  int32 status = 5 [json_name = "status"];  
+  int32 priority = 6 [json_name = "priority"];                         
+  int32 crt_retry_num = 7 [json_name = "crtRetryNum"];
+  int32 max_retry_num = 8 [json_name = "maxRetryNum"];
+  int32 max_retry_interval = 9 [json_name = "maxRetryInterval"];
+  string schedule_log = 10 [json_name = "scheduleLog"];
+  string task_context = 11 [json_name = "context"];
+  int32 order_time = 12 [json_name = "orderTime"];
+}
+message SetTaskRsp {
+  int32 code = 1 [json_name = "code"];
+  string msg = 2 [json_name = "msg"];
+}
+
+// 执行调度后返回的数据
+message ScheduleData {
+  string TraceID = 1 [json_name = "traceId"];             
+  string ErrorMsg = 2 [json_name = "errMsg"];              
+  string cost = 3 [json_name = "cost"];                   
+}

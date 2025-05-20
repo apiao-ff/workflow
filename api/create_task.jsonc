@@ -1,0 +1,19 @@
+// POST
+// URL:http://127.0.0.1/create_task
+// Content-Type:application/json
+{
+    "ReqBody": {
+        "taskData": {
+            "userId": "abc",
+            "taskType": "type",
+            "taskStage": "stage1",
+            "context": "",
+            "priority": 0
+        }
+    },
+    "ResBody": {
+        "code": 0,
+        "msg": "success",
+        "task_id": "bdd18d8f-db5b-4fb8-910f-5f6ff30d036c_lark_1"
+    }
+}

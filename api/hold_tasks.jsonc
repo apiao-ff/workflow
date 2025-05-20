@@ -1,0 +1,31 @@
+// POST
+// URL:http://127.0.0.1/hold_tasks
+// Content-Type:application/json
+{
+	"ReqBody": {
+		"taskType": "lark",
+		"limit": 5
+	},
+	"ResBody": {
+		"code": 0,
+		"msg": "success",
+		"taskList": [
+			{
+				"userId": "abc",
+				"taskId": "bdd18d8f-db5b-4fb8-910f-5f6ff30d036c_lark_1",
+				"taskType": "lark",
+				"taskStage": "stage1",
+				"status": 0,
+				"scheduleLog": "",
+				"context": "",
+				"crtRetryNum": 0,
+				"maxRetryNum": 3,
+				"maxRetryInterval": 10,
+				"priority": 0,
+				"orderTime": 1747396231,
+				"createTime": "20250516 11:50:31",
+				"modifyTime": "20250516 11:50:31"
+			}
+		]
+	}
+}

@@ -1,0 +1,14 @@
+{
+    "rdbms": "mysql",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dbname": "workflow",
+    "user": "root",
+    "passwd": "apiao0509",
+    "tables": [
+        "t_schedule_cfg",
+        "t_schedule_pos",
+        "t_lark_task_1"
+    ],
+    "comment": "drogon_ctl create model -j flowsvr/src/model/model.json -o flowsvr/src/model"
+}

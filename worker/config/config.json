@@ -1,0 +1,13 @@
+{
+    "log": {
+        "logfile_base_name": "./data/worker_log",
+        "log_size_limit": 100000000,
+        "log_level": "TRACE",
+        "display_local_time": true
+    },
+    "custom_config": {
+        "task_type": "lark",
+        "flowsvr_host": "http://flowsvr:8080",
+        "redis_host": "redis:6379 user:default pwd:apiao0509"
+    }
+}
